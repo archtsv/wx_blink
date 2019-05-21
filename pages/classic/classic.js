@@ -1,6 +1,8 @@
-import {HTTP} from '../../util/http.js'
+import { ClassicModel } from '../../models/classic.js'
+import { LikeModel } from '../../models/like.js'
 
-let http = new HTTP()
+let classicModel = new ClassicModel()
+let likeModel = new LikeModel()
 
 Page({
 
@@ -8,18 +10,23 @@ Page({
    * 页面的初始数据
    */
   data: {
+    classic: null
+  },
 
+  onLike(event) {
+    //拿到当前点击后的状态
+    let behavior = event.detail.behavior
+    likeModel.like(behavior, this.data.classic.id, this.data.classic.type)
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    http.request({
-      url: 'classic/latest',
-      success: (res) => {
-        console.log(res)
-      }
+    classicModel.getLatest((res) => {
+      this.setData({
+        classic: res
+      })
     })
   },
 

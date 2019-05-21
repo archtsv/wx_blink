@@ -1,0 +1,5 @@
+<view>
+  <view>1 - {{ index }}</view>
+  <view>2 - {{ year }}</view>
+  <view>3 - {{ month }}</view>
+</view>
