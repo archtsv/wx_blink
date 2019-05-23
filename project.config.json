@@ -13,9 +13,9 @@
 		"checkInvalidKey": true
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.0.4",
+	"libVersion": "2.6.6",
 	"appid": "wx8eef1d923e06a1df",
-	"projectname": "blink",
+	"projectname": "wx_blink",
 	"debugOptions": {
 		"hidedInDevtools": []
 	},

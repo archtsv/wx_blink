@@ -1,7 +1,13 @@
-<v-like
-  like='{{ classic.like_status }}'
-  count='{{ classic.fav_nums }}'
-  bind:like='onLike'
-/>
-<v-epsoide />
-<v-movie img='{{ classic.image }}' content='{{ classic.content }}' />
+<view class="container">
+  <view class='header'>
+    <v-epsoide class="epsoide" index='{{ classic.index }}' />
+    <v-like
+      class='like'
+      like='{{ classic.like_status }}'
+      count='{{ classic.fav_nums }}'
+      bind:like='onLike'
+    />
+  </view>
+  <v-movie img='{{ classic.image }}' content='{{ classic.content }}' />
+  <v-navi class="navi" title='{{ classic.title }}' first='{{ first }}' latest='{{ latest }}' />
+</view>
