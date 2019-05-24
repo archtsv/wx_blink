@@ -21,6 +21,19 @@ Page({
     likeModel.like(behavior, this.data.classic.id, this.data.classic.type)
   },
 
+  onNext(event) {
+
+  },
+
+  onPrevious(event) {
+    let index = this.data.classic.index
+    classicModel.getPrevious(index, (res) => {
+      this.setData({
+        classic: res
+      })
+    })
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
