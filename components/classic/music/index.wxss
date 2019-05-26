@@ -1,1 +1,5 @@
-/* components/classic/music/index.wxss */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
