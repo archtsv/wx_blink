@@ -1,4 +1,4 @@
-<view hidden='{{hidden}}'>
+<view hidden='{{hidden}}' class="container">
   <image class='classic-img' src='{{ img }}' />
   <image class='player-img' src='{{ playSrc }}' />
   <image class='tag' src='images/music@tag.png' />
