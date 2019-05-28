@@ -29,6 +29,7 @@ Page({
 
   onPrevious(event) {
     this._updateClassic('previous')
+    console.log(this.data.classic)
   },
 
   _updateClassic(nextOrPrevious) {

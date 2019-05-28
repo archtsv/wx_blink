@@ -14,9 +14,11 @@
     content='{{ classic.content }}'
   />
   <v-music
-    hidden="{{classic.type != 200}}"
+    wx:if="{{classic.type == 200}}"
     img='{{ classic.image }}'
     content='{{ classic.content }}'
+    src="{{ classic.url }}"
+    title="{{ classic.title }}"
   />
   <v-essay
     hidden="{{classic.type != 300}}"
