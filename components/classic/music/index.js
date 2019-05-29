@@ -75,6 +75,7 @@ Component({
 
   attached() {
     this._recoverStatus()
+    this._monitorSwitch()
   },
 
   detached() {

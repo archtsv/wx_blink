@@ -1,6 +1,6 @@
 <view class="container">
   <view class='header'>
-    <v-epsoide class="epsoide" index='{{ classic.index }}' />
+    <v-episode class="episode" index='{{ classic.index }}' />
     <v-like
       class='like'
       like='{{ likeStatus }}'
