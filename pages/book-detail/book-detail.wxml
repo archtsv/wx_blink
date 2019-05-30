@@ -9,8 +9,8 @@
   <view class="sub-container">
     <text class="headline">短评</text>
     <view class="comment-container">
-      <block wx:for="{{util.limit(comments, 10)}}" wx:key="content">
-        <v-tag tag-class="{{index==0?'ex-tag1':'' || index==1?'ex-tag2':''}}" text="{{item.content}}">
+      <block wx:for="{{ util.limit(comments, 10) }}" wx:key="content">
+        <v-tag tag-class="{{ tool.highlight(index) }}" text="{{ item.content }}">
           <text class="num" slot="after">{{ '+' + item.nums }}</text>
         </v-tag>
       </block>
@@ -18,7 +18,7 @@
   </view>
   <view class="sub-container">
     <text class="headline">内容简介</text>
-    <text class="content" decode="{{true}}">{{util.format(detail.summary)}}</text>
+    <text class="content" decode="{{ true }}">{{ util.format(detail.summary) }}</text>
   </view>
   <view class="sub-container">
     <text class="headline">书本信息</text>
@@ -41,11 +41,47 @@
   </view>
 </view>
 
-<view class="post-container">
-  <view class="post-fake">
+<view class="post-container" wx:if="{{ !posting }}">
+  <view class="post-fake" bind:tap="onFakePost">
     <text>输入短评</text>
   </view>
   <view class="like-container">
-    <v-like bind:like="onLike" class="like" like="{{likeStatus}}" count="{{likeCount}}" />
+    <v-like bind:like="onLike" class="like" like="{{ likeStatus }}" count="{{ likeCount }}" />
   </view>
 </view>
+
+<view class='posting-container' wx:if="{{ posting }}">
+  <view class='post-header'>
+    <text>仅可点击标签+1</text>
+    <text bind:tap='onCancel' class='cancel'>取消</text>
+  </view>
+  <view class='comment-container'>
+    <block wx:for="{{ util.limit(comments, 3) }}" wx:key="content">
+        <v-tag bind:tap='onPost' tag-class="{{ tool.highlight(index) }}" text="{{ item.content }}">
+          <text class="num" slot="after">{{ '+' + item.nums }}</text>
+        </v-tag>
+      </block>
+  </view>
+  <input class='post' placeholder='短评最多12个字'></input>
+</view>
+
+<v-mask wx:if='{{posting}}' />
+
+<wxs module='tool'>
+  var highlight = function(index) {
+
+    if(index===0) {
+      return 'ex-tag1';
+    }
+    
+    if(index===1) {
+      return 'ex-tag2';
+    }
+    
+    return '';
+  }
+
+  module.exports = {
+    highlight: highlight
+  }
+</wxs>

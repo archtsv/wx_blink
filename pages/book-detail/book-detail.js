@@ -18,11 +18,36 @@ Page({
     detail: null,
     likeStatus: 0,
     likeCount: 0,
+    posting: false,
   },
 
   onLike(event) {
     const like_or_cancel = event.detail.behavior;
     likeModel.like(like_or_cancel, this.data.detail.id, 400);
+  },
+
+  onFakePost() {
+    this.setData({
+      posting: true
+    })
+  },
+
+  onCancel() {
+    this.setData({
+      posting: false
+    })
+  },
+
+  onPost(event) {
+    const comment = event.detail.text;
+
+    if(comment.length > 12) {
+      wx.showToast({
+        title: '短评最多12个字',
+        icon: 'none'
+      })
+      return
+    }
   },
 
   /**
@@ -31,22 +56,19 @@ Page({
   onLoad: function (options) {
     const bid = options.bid;
     const detail = bookModel.getDetail(bid);
-    const comments = bookModel.getCommets(bid);
+    const comments = bookModel.getComments(bid);
     const likeStatus = bookModel.getLikeStatus(bid);
     detail.then(res => {
-      console.log(res)
       this.setData({
         detail: res,
       })
     });
     comments.then(res => {
-      console.log(res)
       this.setData({
         comments: res.comments,
       })
     });
     likeStatus.then(res => {
-      console.log(res)
       this.setData({
         likeStatus: res.like_status,
         likeCount: res.fav_nums,
