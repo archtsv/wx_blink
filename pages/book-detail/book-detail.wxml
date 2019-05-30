@@ -1,2 +1,51 @@
-<!--pages/book-detail/book-detail.wxml-->
-<text>pages/book-detail/book-detail.wxml</text>
+<wxs src="../../util/filter.wxs" module="util"></wxs>
+
+<view class="container">
+  <view class="head">
+    <image src="{{ detail.image }}"></image>
+    <text class="title">{{ detail.title }}</text>
+    <text class="author">{{ detail.author }}</text>
+  </view>
+  <view class="sub-container">
+    <text class="headline">短评</text>
+    <view class="comment-container">
+      <block wx:for="{{util.limit(comments, 10)}}" wx:key="content">
+        <v-tag tag-class="{{index==0?'ex-tag1':'' || index==1?'ex-tag2':''}}" text="{{item.content}}">
+          <text class="num" slot="after">{{ '+' + item.nums }}</text>
+        </v-tag>
+      </block>
+    </view>
+  </view>
+  <view class="sub-container">
+    <text class="headline">内容简介</text>
+    <text class="content" decode="{{true}}">{{util.format(detail.summary)}}</text>
+  </view>
+  <view class="sub-container">
+    <text class="headline">书本信息</text>
+    <view class="detail-container">
+      <view class="vertical description">
+        <text>出版社</text>
+        <text>出版年</text>
+        <text>页数</text>
+        <text>定价</text>
+        <text>装帧</text>
+      </view>
+      <view class="vertical">
+        <text>{{ detail.publisher }}</text>
+        <text>{{ detail.pubdate }}</text>
+        <text>{{ detail.pages }}</text>
+        <text>{{ detail.price }}</text>
+        <text>{{ detail.binding }}</text>
+      </view>
+    </view>
+  </view>
+</view>
+
+<view class="post-container">
+  <view class="post-fake">
+    <text>输入短评</text>
+  </view>
+  <view class="like-container">
+    <v-like bind:like="onLike" class="like" like="{{likeStatus}}" count="{{likeCount}}" />
+  </view>
+</view>
