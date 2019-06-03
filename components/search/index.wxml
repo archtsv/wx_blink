@@ -1,4 +1,5 @@
 <view class="container">
+
   <view class="header">
     <view class="search-container">
       <image class="icon" src="images/search.png" />
@@ -35,7 +36,12 @@
 
   <view  wx:if="{{searching}}" class="books-container">
     <block wx:for="{{dataArray}}" wx:key="{{id}}">
-      <v-book book="{{item}}" class="book" />
+      <v-book showLike='{{false}}' book="{{item}}" class="book" />
     </block>
   </view>
+
+  <v-loading class='loading-center' wx:if='{{loadingCenter}}' />
+  <v-loading class='loading' wx:if='{{loading}}' />
+
+  <text wx:if='{{noneResult}}' class='empty-tip'>没有搜索到书籍</text>
 </view>

@@ -19,7 +19,7 @@ Component({
   properties: {
     more: {
       type: String,
-      observer: '_load_more'
+      observer: 'loadMore'
     }
   },
 
@@ -31,7 +31,7 @@ Component({
     hotWords:[],
     searching: false,
     q: '',
-    loading: false,
+    loadingCenter: false,
   },
 
   attached() {
@@ -49,47 +49,74 @@ Component({
    * 组件的方法列表
    */
   methods: {
-    _load_more() {
+    loadMore() {
       if(!this.data.q) {
         return
       }
-      if(this.data.loading) {
+      if(this.isLocked()) {
         return
       }
-      this.data.loading = true;
       if(this.hasMore()) {
+        this.locked();
         bookModel.search(this.getCurrentStart(), this.data.q)
         .then(res => {
           const tempArray = this.data.dataArray.concat(res.books);
           this.setMoreData(res.books);
-          this.setData({
-            loading: false,
-          })
+          this.unlocked();
+        },() => {
+          this.unlocked();
         })
       }
     },
     onCancel() {
+      this.initialize();
       this.triggerEvent('cancel', {}, {});
     },
     onConfirm(event) {
-      this.setData({
-        searching: true,
-      })
+      this._showResult();
+      this._showLoadingCenter();
       const q = event.detail.value || event.detail.text;
+      this.setData({
+        q
+      });
       bookModel.search(0, q)
       .then(res => {
         this.setMoreData(res.books);
         this.setTotal(res.total);
-        this.setData({
-          q
-        });
+        this._hideLoadingCenter();
         keywordModel.addToHistory(q);
       });
     },
+
     onDelete() {
+      this.initialize();
+      this._closeResult();
+    },
+
+    _showLoadingCenter() {
+      this.setData({
+        loadingCenter: true,
+      });
+    },
+
+    _hideLoadingCenter() {
+      this.setData({
+        loadingCenter: false
+      });
+    },
+
+    _showResult() {
+      this.setData({
+        searching: true,
+      });
+    },
+
+    _closeResult() {
       this.setData({
         searching: false,
-      })
-    }
+        q: ''
+      });
+    },
+
   }
 })

@@ -1,18 +1,79 @@
 // pages/my/my.js
+import {
+  BookModel
+} from '../../models/book.js';
+import {
+  ClassicModel
+} from '../../models/classic.js'
+const bookModel = new BookModel();
+const classicModel = new ClassicModel();
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    authorized: false,
+    userInfo: null,
+    bookCount: 0,
+  },
 
+  getMyBookCount() {
+    bookModel.getMyBookCount()
+      .then(res => {
+        this.setData({
+          bookCount: res.count
+        })
+      })
+  },
+
+  onJumpToAbout() {
+    wx.navigateTo({
+      url: '/pages/about/about',
+    })
+  },
+
+  onStudy() {
+    wx.navigateTo({
+      url: '/pages/course/course',
+    })
+  },
+
+  onGetUserInfo(event) {
+    const userInfo = event.detail.userInfo;
+    if(userInfo){
+      this.setData({
+        userInfo,
+        authorized: true,
+      });
+    }
+  },
+
+  userAuthorized() {
+    // 判断用户是否授权
+    wx.getSetting({
+      success: data => {
+        if(data.authSetting['scope.userInfo']) {
+          wx.getUserInfo({
+            success: data => {
+              this.setData({
+                authorized: true,
+                userInfo: data.userInfo
+              })
+            }
+          })
+        }
+      }
+    })
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    this.userAuthorized();
+    this.getMyBookCount();
   },
 
   /**
